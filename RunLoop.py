@@ -2,6 +2,7 @@ import DogBot;
 import FilterTweets;
 import GetTweets;
 import SendSMS;
+import sys
 
 def doEverything():
     GetTweets.getTweets(
@@ -20,6 +21,14 @@ def doFromCache():
     SendSMS.sendText(SendSMS.ACCT,SendSMS.TOKEN,toSend="14089210992",
     from_Send="16692216638",bodySend=sentences[0]);
 def main():
-    doFromCache()
+    if(len(sys.argv)!=2):
+        print("usage: G for getTweets, C for fromCache")
+    elif(sys.argv[1]=="G"):
+        doEverything()
+    elif(sys.argv[1]=="C"):
+        doFromCache()
+    else:
+        print("usage: G for getTweets, C for fromCache")
+
 if __name__ == '__main__':
     main()
