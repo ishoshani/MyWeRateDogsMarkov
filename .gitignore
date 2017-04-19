@@ -1,4 +1,5 @@
 tweetstore
 filteredTweets
 config.py
+config.pyc
 venv/
