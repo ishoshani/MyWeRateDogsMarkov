@@ -1,17 +1,33 @@
 from twitter import *
 import os
+import config
+def getTweets(consumer1,consumer2,secret1,secret2,cacheName="tweetStore"):
+    t = Twitter(
+        auth=OAuth(consumer1,consumer2,secret1,secret2)
+        )
+    numtweets = 0;
+    numgoal = 2500;
+    tweets = t.statuses.user_timeline(screen_name="dog_rates", include_rts=0)
+    cache = open(cacheName,'w')
+    numtweets += len(tweets);
 
-t = Twitter(
-    auth=OAuth(
-    "24402771-ubOY1IpmOG5ibnIXj3BzTJsNDN6XiHczABU5Ye28P",
-    "SECNSAYwvYKpfoqvfl6LPDYu9I9R31u4NOMaocXnbRHZa",
-    "9Q4DuLLm6cBwvT2lZ4lTl6EEV",
-    "1Qd75eOOGxF5eOvPRdy3O7QngDAEvewzRnmBcfvOCl6jZDD3hj")
+    while numtweets < numgoal:
+        ids = []
+        for tw in tweets:
+            ids.append(tw['id'])
+            cache.write(tw['text'].encode('utf8'))
+            cache.write("\n".encode('utf8'))
+        minId = min(ids)
+        numtweets += len(tweets)
+        tweets = t.statuses.user_timeline(screen_name="dog_rates", include_rts=0, max_id=minId)
+    cache.close();
+
+def main():
+    getTweets(
+    config.consumer1,
+    config.consumer2,
+    config.secret1,
+    config.secret2
     )
-tweets = t.statuses.user_timeline(screen_name="dog_rates", count=5000)
-cache = open("tweetStore",'w')
-for tw in tweets:
-    print(tw['text'])
-    cache.write(tw['text'].encode('utf8'))
-    cache.write("\n".encode('utf8'))
-cache.close();
+if __name__ == '__main__':
+    main()

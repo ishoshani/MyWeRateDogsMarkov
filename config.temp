@@ -1,0 +1,10 @@
+#In Order for this to work these fields must be filled and the name of the file mut be config.py
+
+#TwitterDev
+Consumer1 =
+Consumer2 =
+Secret1 =
+Secret2 =
+#TwilioAccount
+Acct =
+Token =
